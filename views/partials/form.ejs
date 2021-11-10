@@ -1,0 +1,87 @@
+<div class="form-group">
+    <label for="itemname"> Item Name </label>
+    <input 
+        type="text"
+        name="itemName"
+        id="itemname"
+        class="form-control"
+        placeholder="Enter item name"
+        required
+        value="<%= item.itemName %>"
+    />
+</div>
+
+<div class="form-group">
+    <label for="itemchemname"> Item's Chemical Name </label>
+    <input 
+        type="text"
+        name="itemChemName"
+        id="itemchemname"
+        class="form-control"
+        placeholder="Enter item's chemical name"
+        value="<%= item.itemChemName %>"
+    />
+</div>
+
+<div class="form-group">
+    <label for="itemcompany"> Item Company </label>
+    <input 
+        type="text"
+        name="itemCompany"
+        id="itemcompany"
+        class="form-control"
+        placeholder="Enter item company"
+        required
+        value="<%= item.itemCompany %>"
+    />
+</div>
+
+<div class="form-group">
+    <label for="itemcategory"> Item Category </label>
+    <select class="custom-select" id="itemcategory" name="itemCategory">
+        <option value="<%= item.itemCategory %>"> Select a category </option>
+        <option value="Medicines"> Medicines </option>
+        <option value="COVID Essentials"> COVID Essentials </option>
+        <option value="Body Care"> Body Care </option>
+        <option value="Fitness Products"> Fitness Products </option>
+        <option value="Healthcare Products"> Healthcare Products </option>
+        <option value="Other Items"> Other Items </option>
+    </select>
+</div>
+
+<!-- <div class="form-group">
+    <label for="itemqty"> Quantity </label>
+    <input 
+        type="number"
+        name="itemQty"
+        id="itemqty"
+        class="form-control"
+        placeholder="Enter the quantity"
+        required
+        value="<%= item.itemQty %>"
+    />
+</div> -->
+
+<div class="form-group">
+    <label for="itemprice"> Price (in ₹) </label>
+    <input 
+        type="number"
+        name="itemPrice"
+        id="itemprice"
+        class="form-control"
+        placeholder="Enter the price"
+        required
+        value="<%= item.itemPrice %>"
+    />
+</div>
+
+<div class="form-group">
+    <label for="image"> Image </label>
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="customFile" name="image" required>
+        <label class="custom-file-label" for="customFile">Choose file</label>
+    </div>
+</div>
+
+<button class="btn btn-success btn-lg mr-2"> Submit </button>
+<a href="/user/dashboard" class="btn btn-dark btn-lg mt-4 d-inline"> Cancel </a>

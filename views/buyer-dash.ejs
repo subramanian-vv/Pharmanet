@@ -1,0 +1,53 @@
+<%- include('./partials/messages.ejs'); %>
+<%- include('./partials/buyer-nav.ejs'); %>
+
+<style>
+  @media (min-width: 768px) {
+    .col-md-6 {
+      max-width: calc(50% - 1.5em);
+    }
+  }
+</style>
+
+<h1 class="mb-3 mt-4 text-center">Welcome to your dashboard, <%= name %> !</h1> <hr>
+
+    <% if(items.length == 0) { %>
+        <h4 class="mt-4 text-center"> There are no items as of now! Please shop later. </h4>
+      <% } %>
+      <div class="row" style="margin: 0%;">
+      <% items.forEach(function (item) { %>
+      
+          <div class="col-md-6 col-sm-12 col-12 card mt-4 mr-4 border-dark">
+            <h3 class="card-header text-center">
+              <%= item.itemName %>
+            </h3>
+              <div class="card-body" style="background-color: lavenderblush;">
+                <div class="card-title mb-4" style="display: flex; justify-content: center;"> 
+                  <img src="data:image/<%= item.image.contentType %>;base64, 
+					                  <%= item.image.data.toString('base64') %>" width="200" height="200" alt="Image">   
+                </div>
+                <% if(item.itemChemName != "") { %>
+                  <div class="card-title mb-4"> Chemical Name: <strong> <%= item.itemChemName %> </strong> </div>
+                <% } %>
+                <div class="card-title mb-4"> Company: <strong> <%= item.itemCompany %> </strong> </div>
+                <div class="card-title mb-4"> Price: <strong> ₹ <%= item.itemPrice %> </strong> </div>
+                <div class="card-title mb-4"> Available stock: <strong> <%= item.itemQty %> </strong> </div>
+                <div class="card-title mb-4"> Category: <strong class="badge badge-dark"> <%= item.itemCategory %> </strong> </div>
+                <br> <hr>
+                <form action="/user/cart/<%= item.id %>" method="POST">
+                    <input 
+                      name="quantity"
+                      id="quantity"
+                      type="number"
+                      value="1"
+                      placeholder="Enter quantity"
+                      required
+                      />
+                    <button type="submit" class="btn"> <i class="fa fa-shopping-cart" style="font-size:36px"></i> </button>
+                </form>
+              </div>
+      
+          </div>
+      
+      <% }) %>
+        </div>

@@ -1,0 +1,53 @@
+<%- include('./partials/messages.ejs'); %>
+<%- include('./partials/buyer-nav.ejs'); %>
+
+<h1 class="mb-3 mt-4 text-center">Welcome to your cart, <%= name %> !</h1> <hr>
+
+    <% if(cart.length == 0) { %>
+        <h4 class="mt-4 text-center"> No items in the cart! </h4>
+      <% } else { %>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover">
+              <thead class="table-dark">
+              <tr>
+              <th>S.No.</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Quantity</th>
+              <th>Amount</th>
+              <th></th>
+              </tr>
+              </thead>
+          <% let count = 1; %>
+          <% cart.forEach(function (cartObject) { %>
+            <tr>
+                <td> <%= count %> </td>
+                <td> <%= cartObject.name %> </td>
+                <td> <span class="badge badge-dark"> <%= cartObject.category %> </span> </td>
+                <td> <%= cartObject.qty %> </td>
+                <td> <%= cartObject.price %> </td>
+                <td style="display: flex; justify-content: center;">
+                  <form action="/user/remove/<%= cartObject.id %>" method="POST">
+                    <button type="submit" class="btn"> <i class="fas fa-trash-alt" style="font-size:24px;color:red"></i> </button>
+                  </form>
+                </td>
+            </tr>
+            <% count++ %>
+          <% }) %>
+            <tr>
+              <td></td>
+              <td> <b> Total </b> </td>
+              <td></td>
+              <td> <b> <%= totalItems %> </b> </td>
+              <td> <b> ₹ <%= totalPrice %> </b> </td>
+              <td></td>
+            </tr>
+          </table>
+      </div>
+        <hr>
+        <div style="display: flex; justify-content: center;">
+          <form action="/user/purchases" method="POST" class="mb-2">
+            <button type="submit" class="btn btn-success btn-lg"> Checkout </button>
+          </form>
+        </div>
+      <% } %>

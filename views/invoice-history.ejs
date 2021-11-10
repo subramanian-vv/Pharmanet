@@ -1,0 +1,48 @@
+<%- include('./partials/messages.ejs'); %>
+<%- include('./partials/seller-nav.ejs'); %>
+
+<h1 class="mb-3 mt-4 text-center">Welcome to your invoices, <%= name %> !</h1> <hr>
+
+    <% if(invoices.length == 0) { %>
+        <h4 class="mt-4 text-center"> No invoices added yet! </h4>
+      <% } else { %>
+        <p class="mt-2 text-center"> Cost Price: <strong> ₹ <%= costPrice %> </strong> </p>
+        <% invoices.forEach(function (invoice) { %>
+            <h4 class="mt-4 mb-3 text-center"> Invoice created on: <%= invoice.createdDate.toLocaleDateString(); %> (<%= invoice.createdDate.toLocaleTimeString(); %>) </h4>
+            <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                <tr>
+                <th>S.No.</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+                <th>Batch No.</th>
+                <th>Expiry</th>
+                </tr>
+                </thead>
+            <% let totalQty = 0; let totalAmount = 0; %>
+            <% for(let i = 0; i < invoice.items.length; i++) { %>
+                <tr>
+                    <td> <%= i+1 %> </td>
+                    <td> <%= invoice.items[i].name %> </td>
+                    <td> <%= invoice.items[i].qty %> </td>
+                    <td> <%= invoice.items[i].amount %> </td>
+                    <td> <%= invoice.items[i].batchno %> </td>
+                    <td> <%= invoice.items[i].expiry != "" ? invoice.items[i].expiry : '-' %> </td>
+                    <% totalQty += parseInt(invoice.items[i].qty); %>
+                    <% totalAmount += parseFloat(invoice.items[i].amount); %>
+                </tr>
+            <% } %>
+                <tr>
+                <td></td>
+                <td> <b> Total </b> </td>
+                <td> <b> <%= totalQty %> </b> </td>
+                <td> <b> <%= totalAmount %> </b> </td>
+                <td></td>
+                <td></td>
+                </tr>
+            </table>
+        </div>
+        <% }) %>
+    <% } %>

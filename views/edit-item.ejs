@@ -1,0 +1,48 @@
+<%- include('./partials/messages.ejs'); %>
+<%- include('./partials/seller-nav.ejs'); %>
+
+<h1 class="mb-3 mt-2 text-center"> Edit Item </h1>
+
+<div class="card mt-4 border-dark">
+    <h3 class="card-header text-center">
+      <%= item.itemName %>
+    </h3>
+      <div class="card-body" style="background-color: lavenderblush; text-align: center;">
+        <div class="card-title mb-4"> 
+          <img src="data:image/<%= item.image.contentType %>;base64, 
+                              <%= item.image.data.toString('base64') %>" width="200" height="200" alt="Image">   
+        </div>
+        <% if(item.itemChemName != "") { %>
+            <div class="card-title mb-4"> Chemical Name: <strong> <%= item.itemChemName %> </strong> </div>
+        <% } %>
+        <div class="card-title mb-4"> Company: <strong> <%= item.itemCompany %> </strong> </div>
+        <div class="card-title mb-4"> Category: <strong> <%= item.itemCategory %> </strong> </div>
+        <form action="/user/<%= item.id %>?_method=PUT" method="POST">
+            <div class="form-group">
+                <label for="itemqty"> Quantity: </label>
+                <input 
+                    type="number"
+                    name="itemQty"
+                    id="itemqty"
+                    placeholder="Enter the quantity"
+                    required
+                    value="<%= item.itemQty %>"
+                />
+            </div>
+            
+            <div class="form-group">
+                <label for="itemprice"> Price: </label>
+                <input 
+                    type="number"
+                    name="itemPrice"
+                    id="itemprice"
+                    placeholder="Enter the price"
+                    required
+                    value="<%= item.itemPrice %>"
+                />
+            </div>
+            <button class="btn btn-danger btn-lg mr-4"> Submit </button>
+            <a href="/user/dashboard" class="btn btn-dark btn-lg mt-4 d-inline"> Cancel </a>
+        </form>
+     </div>
+</div> 

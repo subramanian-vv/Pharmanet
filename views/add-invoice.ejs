@@ -1,0 +1,103 @@
+<%- include('./partials/messages.ejs'); %>
+<%- include('./partials/seller-nav.ejs'); %>
+
+<h1 class="mb-4 mt-2 text-center"> Add Invoice </h1>
+<form action="/user/invoice" method="POST">  
+    <div class="form-row">
+        <div class="col">
+            <label for="total" style="font-size: 1.2em;"> Number of items </label>
+        </div>
+        <div class="col">
+            <input 
+                type="number"
+                name="total"
+                id="total"
+                class="form-control"
+                placeholder="Enter the total number of items"
+                required
+                value=""
+            />
+        </div>
+        <div class="col">
+            <button id="button" class="btn btn-success mr-2"> Go </button>
+        </div>
+    </div>
+    <div id="list">
+
+    </div>
+</form>
+<script>
+    let button = document.getElementById("button");
+    button.addEventListener('click', function() {
+        let total = parseInt(document.getElementById("total").value);
+        let list = document.getElementById("list");
+        list.innerHTML = `<div class="table-responsive mt-4">
+                        <table id="table" class="table table-bordered table-striped table-hover">
+                            <thead class="table-dark">
+                            <tr>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Amount</th>
+                            <th>Batch No.</th>
+                            <th>Expiry Date</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>`
+        let table = document.getElementById("table");
+        for(let i = 0; i < total; i++) {
+            table.innerHTML += `<tr>
+                                    <td> <select 
+                                            name="item${i}.name"
+                                            id="itemname"
+                                            class="custom-select"
+                                            required
+                                            value="">
+                                                <option disabled selected value> Select an item </option>
+                                                <% items.forEach(function (item) { %>
+                                                    <option value="<%= item.itemName %>">
+                                                        <%= item.itemName %>
+                                                    </option>
+                                                <% }) %>
+                                        </select>
+                                    </td>
+                                    <td> <input 
+                                            type="number"
+                                            name="item${i}.qty"
+                                            id="itemqty"
+                                            placeholder="Enter the quantity"
+                                            class="form-control"
+                                            required
+                                            value=""
+                                        /> </td>
+                                    <td> <input 
+                                            type="number"
+                                            name="item${i}.amount"
+                                            id="itemamount"
+                                            placeholder="Enter the amount"
+                                            class="form-control"
+                                            required
+                                            value=""
+                                        /> </td>
+                                    <td> <input 
+                                            type="text"
+                                            name="item${i}.batchno"
+                                            id="itemname"
+                                            placeholder="Enter batch number"
+                                            class="form-control"
+                                            required
+                                            value=""
+                                        /> </td>
+                                    <td> <input 
+                                            type="month"
+                                            name="item${i}.expiry"
+                                            id="itemname"
+                                            placeholder=""
+                                            class="form-control"
+                                            value=""
+                                        /> </td>
+                                </tr>`
+        }
+        list.innerHTML += `<button type="submit" class="btn btn-success btn-lg mr-2"> Submit </button>`
+    });
+</script>

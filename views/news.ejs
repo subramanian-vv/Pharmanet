@@ -1,0 +1,28 @@
+<%- include('./partials/messages.ejs'); %>
+<%- include('./partials/buyer-nav.ejs'); %>
+
+<h1 class="text-center mb-3 mt-4"> <i class="fas fa-newspaper"></i> TOP HEALTH HEADLINES </h1> <hr>
+<div id="test"></div>
+
+    <% if(news.length == 0) { %>
+        <h4 class="mt-4 text-center"> No news available! </h4>
+      <% } %>
+      
+      <% news.forEach(function (article) { %>
+        <% if(article.urlToImage != null) { %>
+            <div class="card mt-4 mb-4">
+                <div class="card-header" id="title"> <h4> <%= article.title %> </h4> </div>
+                <div class="card-body">
+                    <div class="card-title float-right"> 
+                        <img src="<%= article.urlToImage %>" id="img" width="200" height="200" draggable="false" alt="Image not found">
+                    </div>
+                    <div class="card-title" id="desc"> <b> Description: </b> <%= article.description %> </div>
+                    <a href="<%= article.url %>" target="_blank" id="link"> <b> Read more </b> </a>
+                </div>
+                <div class="card-footer">
+                    <div class="card-date float-right" id="pub"> <b> Source: </b> <span> <%= article.source.name %> </span> </div>
+                    <div class="card-date" id="date"> <b> Published at: </b> <%= new Date(article.publishedAt) %> </div>
+                </div>
+            </div>
+        <% } %>
+      <% }) %>
