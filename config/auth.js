@@ -8,7 +8,7 @@ module.exports = {
         res.redirect('/login');
     },
 
-    //Ensures users don't access the signup/login page when logged in
+    //Ensures users don't access the register/login page when logged in
     forwardAuthenticated: function (req, res, next) {
         if(!req.isAuthenticated()) {
             return next();

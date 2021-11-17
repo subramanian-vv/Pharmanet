@@ -1,14 +1,14 @@
 <%- include('./partials/messages.ejs'); %>
 <%- include('./partials/buyer-nav.ejs'); %>
 
-<h1 class="text-center mb-3 mt-4"> <i class="fas fa-newspaper"></i> TOP HEALTH HEADLINES </h1> <hr>
-<div id="test"></div>
+<div class="container">
+    <h1 class="text-center mb-3 mt-4"> <i class="fas fa-newspaper"></i> TOP HEALTH HEADLINES </h1> <hr>
 
     <% if(news.length == 0) { %>
         <h4 class="mt-4 text-center"> No news available! </h4>
-      <% } %>
-      
-      <% news.forEach(function (article) { %>
+    <% } %>
+    
+    <% news.forEach(function (article) { %>
         <% if(article.urlToImage != null) { %>
             <div class="card mt-4 mb-4">
                 <div class="card-header" id="title"> <h4> <%= article.title %> </h4> </div>
@@ -25,4 +25,5 @@
                 </div>
             </div>
         <% } %>
-      <% }) %>
+    <% }) %>
+</div>

@@ -16,12 +16,12 @@ router.get('/login', forwardAuthenticated, function(req, res) {
     res.render('login');
 });
 
-router.get('/signup', forwardAuthenticated, function(req, res) {
-    res.render('signup');
+router.get('/register', forwardAuthenticated, function(req, res) {
+    res.render('register');
 });
 
-//Signup handle
-router.post('/signup', function(req, res) {
+//Register handle
+router.post('/register', function(req, res) {
     const { name, email, password, password2, role } = req.body;
     let errors = [];
 
@@ -41,7 +41,7 @@ router.post('/signup', function(req, res) {
     }
 
     if(errors.length > 0) {
-        res.render('signup', {
+        res.render('register', {
             errors,
             name,
             email,
@@ -56,7 +56,7 @@ router.post('/signup', function(req, res) {
                 if(user) {
                     //User exists
                     errors.push({ msg: 'Email is already registered' });
-                    res.render('signup', {
+                    res.render('register', {
                         errors,
                         name,
                         email,
@@ -82,7 +82,7 @@ router.post('/signup', function(req, res) {
 
                             newUser.save()
                                 .then(function(user) {
-                                    req.flash('success_msg', 'Signup is successful and you can login!');
+                                    req.flash('success_msg', 'Registration is successful and you can login!');
                                     res.redirect('/login');
                                 })
                                 .catch(function(err) {

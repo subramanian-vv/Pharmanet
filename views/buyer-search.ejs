@@ -1,12 +1,13 @@
 <%- include('./partials/messages.ejs'); %>
 <%- include('./partials/buyer-nav.ejs'); %>
 
-<h3 class="mb-3 mt-4 text-center"> Search results for: <%= search %> </h3> <hr>
+<div class="container">
+  <h3 class="mb-3 mt-4 text-center"> Search results for: <%= search %> </h3> <hr>
 
-<% if(items.length == 0) { %>
+  <% if(items.length == 0) { %>
     <h4 class="mt-4 text-center"> No results found! </h4>
   <% } %>
-  
+    
   <% items.forEach(function (item) { %>
   
       <div class="card mt-4 border-dark">
@@ -42,3 +43,4 @@
       </div>
   
   <% }) %>
+</div>

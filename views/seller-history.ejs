@@ -1,11 +1,12 @@
 <%- include('./partials/messages.ejs'); %>
 <%- include('./partials/seller-nav.ejs'); %>
 
-<h1 class="mb-3 mt-4 text-center">Welcome to your sales history, <%= name %> !</h1> <hr>
+<div class="container">
+    <h1 class="mb-3 mt-4 text-center">Welcome to your sales history, <%= name %> !</h1> <hr>
 
     <% if(items.length == 0) { %>
         <h4 class="mt-4 text-center"> No items added yet! </h4>
-      <% } else { %>
+    <% } else { %>
         <p class="mt-2 text-center"> Turnover: <strong> ₹ <%= totalAmount %> </strong> </p> 
         <% items.forEach(function (item) { %>
             <% if(item.purchases.length > 0) { %>
@@ -58,3 +59,4 @@
             <script data-plotly="koyilnet:0" sharekey-plotly="h0jcNuccQ6LI7vjDchCjXA" src="https://plotly.com/embed.js" async></script>
         </div>
     <% } %>
+</div>

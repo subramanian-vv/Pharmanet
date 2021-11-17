@@ -1,45 +1,47 @@
 <%- include('./partials/messages.ejs'); %>
 <%- include('./partials/buyer-nav.ejs'); %>
 
-<h1 class="mb-3 mt-4 text-center">Welcome to your purchases, <%= name %> !</h1> <hr>
+<div class="container">
+  <h1 class="mb-3 mt-4 text-center">Welcome to your purchases, <%= name %> !</h1> <hr>
 
-    <% if(purchases.length == 0) { %>
-        <h4 class="mt-4 text-center"> No purchases made yet! </h4>
-      <% } %>
-      
-      <% for(let i = 0; i < purchases.length; i++) { %>
-        <h4 class="mt-4 mb-3 text-center"> Purchase date: <%= purchases[i][0].eventDate %> </h4>
-        <div class="table-responsive">
-          <table class="table table-bordered table-striped">
-              <thead class="table-dark">
-              <tr>
-              <th>S.No.</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Quantity</th>
-              <th>Amount</th>
-              </tr>
-              </thead>
-          <% let count = 1; let totalPrice = 0; let totalQty = 0; %>
-          <% purchases[i].forEach(function (item) { %>
+  <% if(purchases.length == 0) { %>
+      <h4 class="mt-4 text-center"> No purchases made yet! </h4>
+    <% } %>
+    
+    <% for(let i = 0; i < purchases.length; i++) { %>
+      <h4 class="mt-4 mb-3 text-center"> Purchase date: <%= purchases[i][0].eventDate %> </h4>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
             <tr>
-                <td> <%= count %> </td>
-                <td> <%= item.name %> </td>
-                <td> <span class="badge badge-dark"> <%= item.category %> </span> </td>
-                <td> <%= item.qty %> </td>
-                <td> <%= item.price %> </td>
-                <% totalQty += parseInt(item.qty); %>
-                <% totalPrice += parseFloat(item.price); %>
+            <th>S.No.</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Amount</th>
             </tr>
-            <% count++ %>
-          <% }) %>
-            <tr>
-              <td></td>
-              <td> <b> Total </b> </td>
-              <td></td>
-              <td> <b> <%= totalQty %> </b> </td>
-              <td> <b> ₹ <%= totalPrice %> </b> </td>
-            </tr>
-          </table>
-      </div>
-      <% } %>
+            </thead>
+        <% let count = 1; let totalPrice = 0; let totalQty = 0; %>
+        <% purchases[i].forEach(function (item) { %>
+          <tr>
+              <td> <%= count %> </td>
+              <td> <%= item.name %> </td>
+              <td> <span class="badge badge-dark"> <%= item.category %> </span> </td>
+              <td> <%= item.qty %> </td>
+              <td> <%= item.price %> </td>
+              <% totalQty += parseInt(item.qty); %>
+              <% totalPrice += parseFloat(item.price); %>
+          </tr>
+          <% count++ %>
+        <% }) %>
+          <tr>
+            <td></td>
+            <td> <b> Total </b> </td>
+            <td></td>
+            <td> <b> <%= totalQty %> </b> </td>
+            <td> <b> ₹ <%= totalPrice %> </b> </td>
+          </tr>
+        </table>
+    </div>
+  <% } %>
+</div>

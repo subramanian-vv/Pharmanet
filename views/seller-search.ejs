@@ -1,40 +1,41 @@
 <%- include('./partials/messages.ejs'); %>
 <%- include('./partials/seller-nav.ejs'); %>
 
-<h3 class="mb-3 mt-4 text-center"> Search results for: <%= search %> </h3> <hr>
+<div class="container">
+  <h3 class="mb-3 mt-4 text-center"> Search results for: <%= search %> </h3> <hr>
 
-<% if(items.length == 0) { %>
+  <% if(items.length == 0) { %>
     <h4 class="mt-4 text-center"> No results found! </h4>
   <% } %>
-  
+    
   <% items.forEach(function (item) { %>
     <% if(item.name == name) { %>
       <div class="card mt-4 border-dark">
         <h3 class="card-header text-center">
           <%= item.itemName %>
         </h3>
-          <div class="card-body" style="background-color: lavenderblush;">
-            <div class="card-title mb-4 float-right"> 
-              <img src="data:image/<%= item.image.contentType %>;base64, 
-                                  <%= item.image.data.toString('base64') %>" width="200" height="200" alt="Image">   
-            </div>
-            <% if(item.itemChemName != "") { %>
-              <div class="card-title mb-4"> Chemical Name: <strong> <%= item.itemChemName %> </strong> </div>
-            <% } %>
-            <div class="card-title mb-4"> Company: <strong> <%= item.itemCompany %> </strong> </div>
-            <div class="card-title mb-4"> Price: <strong> ₹ <%= item.itemPrice %> </strong> </div>
-            <div class="card-title mb-4"> Available stock: <strong> <%= item.itemQty %> </strong> </div>
-            <div class="card-title mb-4"> Category: <strong class="badge badge-dark"> <%= item.itemCategory %> </strong> </div>
-            <br> <hr>
-            <a href="/user/edit/<%= item.id %>" class="btn btn-info btn-lg mr-2">Edit</a>
-                <form action="/user/<%= item.id %>?_method=DELETE" method="POST" class="d-inline">
-                  <button type="submit" class="btn btn-danger btn-lg">Delete</button>
-                </form>
-              </div>
-              <div class="card-footer mb-2"> Added on : <strong> <%= item.createdDate.toLocaleDateString() %> </strong>
-                <div class="float-right"> Added by: <strong> You </strong> </div>
-              </div>
+        <div class="card-body" style="background-color: lavenderblush;">
+          <div class="card-title mb-4 float-right"> 
+            <img src="data:image/<%= item.image.contentType %>;base64, 
+                                <%= item.image.data.toString('base64') %>" width="200" height="200" alt="Image">   
+          </div>
+          <% if(item.itemChemName != "") { %>
+            <div class="card-title mb-4"> Chemical Name: <strong> <%= item.itemChemName %> </strong> </div>
+          <% } %>
+          <div class="card-title mb-4"> Company: <strong> <%= item.itemCompany %> </strong> </div>
+          <div class="card-title mb-4"> Price: <strong> ₹ <%= item.itemPrice %> </strong> </div>
+          <div class="card-title mb-4"> Available stock: <strong> <%= item.itemQty %> </strong> </div>
+          <div class="card-title mb-4"> Category: <strong class="badge badge-dark"> <%= item.itemCategory %> </strong> </div>
+          <br> <hr>
+          <a href="/user/edit/<%= item.id %>" class="btn btn-info btn-lg mr-2">Edit</a>
+          <form action="/user/<%= item.id %>?_method=DELETE" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-danger btn-lg">Delete</button>
+          </form>
+        </div>
+        <div class="card-footer mb-2"> Added on : <strong> <%= item.createdDate.toLocaleDateString() %> </strong>
+          <div class="float-right"> Added by: <strong> You </strong> </div>
+        </div>
       </div>
     <% } %>
   <% }) %>
-
+</div>
