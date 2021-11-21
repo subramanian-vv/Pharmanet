@@ -1,41 +1,89 @@
 <%- include('./partials/messages.ejs'); %>
 <%- include('./partials/seller-nav.ejs'); %>
 
+<style>
+  @media (min-width: 768px) {
+    .col-md-6 {
+      max-width: calc(50% - 1.5em);
+    }
+  }
+</style>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
 <div class="container">
   <h3 class="mb-3 mt-4 text-center"> Search results for: <%= search %> </h3> <hr>
+  <div class="form-group">
+    <form class="form-inline my-2 my-lg-0" action="/user/search" method="POST">
+      <input 
+          class="form-control col-lg-11 col-md-10 col-sm-10 col-xs-10 col-9"
+          id="search"
+          list="search-items"
+          name="search"
+          type="search"
+          placeholder="Search items"
+          aria-label="Search"
+          required
+          value="<%= typeof search != 'undefined' ? search : '' %>">
+          <datalist id="search-items">
+            <option value="Medicines">
+            <option value="COVID Essentials">
+            <option value="Body Care">
+            <option value="Fitness Products">
+            <option value="Healthcare Products">
+            <option value="Other Items">
+            <% items.forEach(function (item) { %>
+              <option value="<%= item.itemName %>">
+              <option value="<%= item.itemChemName %>">
+            <% }) %>
+          </datalist>
+      <button class="btn btn-success my-2 my-sm-0" type="submit"> <i class="fa fa-search"></i> </button>
+  </form>
+  </div>
 
   <% if(items.length == 0) { %>
     <h4 class="mt-4 text-center"> No results found! </h4>
   <% } %>
     
-  <% items.forEach(function (item) { %>
-    <% if(item.name == name) { %>
-      <div class="card mt-4 border-dark">
-        <h3 class="card-header text-center">
-          <%= item.itemName %>
-        </h3>
-        <div class="card-body" style="background-color: lavenderblush;">
-          <div class="card-title mb-4 float-right"> 
-            <img src="data:image/<%= item.image.contentType %>;base64, 
-                                <%= item.image.data.toString('base64') %>" width="200" height="200" alt="Image">   
-          </div>
-          <% if(item.itemChemName != "") { %>
-            <div class="card-title mb-4"> Chemical Name: <strong> <%= item.itemChemName %> </strong> </div>
-          <% } %>
-          <div class="card-title mb-4"> Company: <strong> <%= item.itemCompany %> </strong> </div>
-          <div class="card-title mb-4"> Price: <strong> ₹ <%= item.itemPrice %> </strong> </div>
-          <div class="card-title mb-4"> Available stock: <strong> <%= item.itemQty %> </strong> </div>
-          <div class="card-title mb-4"> Category: <strong class="badge badge-dark"> <%= item.itemCategory %> </strong> </div>
-          <br> <hr>
-          <a href="/user/edit/<%= item.id %>" class="btn btn-info btn-lg mr-2">Edit</a>
-          <form action="/user/<%= item.id %>?_method=DELETE" method="POST" class="d-inline">
-            <button type="submit" class="btn btn-danger btn-lg">Delete</button>
-          </form>
+  <div class="row" style="margin: 0%;">
+    <% items.forEach(function (item) { %>
+    
+        <div class="col-md-6 col-sm-12 col-12 card mt-4 mr-4 border-dark">
+          <h3 class="card-header text-center">
+            <%= item.itemName %>
+          </h3>
+            <div class="card-body" style="background-color: lavenderblush;">
+              <div class="card-title mb-4" style="display: flex; justify-content: center;"> 
+                <img src="data:image/<%= item.image.contentType %>;base64, 
+                          <%= item.image.data.toString('base64') %>" width="200" height="200" alt="Image">   
+              </div>
+              <% if(item.itemChemName != "") { %>
+                <div class="card-title mb-4"> Chemical Name: <strong> <%= item.itemChemName %> </strong> </div>
+              <% } %>
+              <div class="card-title mb-4"> Company: <strong> <%= item.itemCompany %> </strong> </div>
+              <div class="card-title mb-4"> Price: <strong> ₹ <%= item.itemPrice %> </strong> </div>
+              <div class="card-title mb-4"> Available stock: <strong> <%= item.itemQty %> </strong> </div>
+              <div class="card-title mb-4"> Category: <strong class="badge badge-dark"> <%= item.itemCategory %> </strong> </div>
+              <% if(!item.isVisible) { %>
+                <div class="card-title mb-4" style="font-size: small; color: darkred;"> * This item is currently hidden from public view. Kindly restore to make it visible. </div>
+              <% } %>
+              <br> <hr>
+              <div style="display: flex; justify-content: center;">
+                <a href="/user/edit/<%= item.id %>" title="Edit" class="btn"><i class="fas fa-edit" style="font-size:24px;color:blue"></i></a>
+                <form action="/user/<%= item.id %>?_method=PUT" method="POST" class="d-inline">
+                  <% if(item.isVisible) { %>
+                    <button type="submit" title="Delete" class="btn"><i class="fas fa-trash" style="font-size:24px;color:red"></i></button>
+                  <% } else { %>
+                    <button type="submit" title="Restore" class="btn"><i class="fas fa-trash-restore" style="font-size:24px;color:green"></i></button>
+                  <% } %>
+                </form>
+              </div>
+            </div>
+            <div class="card-footer mb-2"> 
+              <div class="text-center"> Added on : <strong> <%= item.createdDate.toLocaleDateString() %> </strong> </div>
+              <div class="text-center"> Added by: <strong> You </strong> </div>
+            </div>
         </div>
-        <div class="card-footer mb-2"> Added on : <strong> <%= item.createdDate.toLocaleDateString() %> </strong>
-          <div class="float-right"> Added by: <strong> You </strong> </div>
-        </div>
-      </div>
-    <% } %>
-  <% }) %>
+    
+    <% }) %>
+  </div>
 </div>

@@ -7,7 +7,7 @@
       <h4 class="mt-4 text-center"> No items in the cart! </h4>
     <% } else { %>
       <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover">
+        <table class="table table-bordered table-striped">
             <thead class="table-dark">
             <tr>
             <th>S.No.</th>
@@ -28,7 +28,7 @@
               <td> <%= cartObject.price %> </td>
               <td style="display: flex; justify-content: center;">
                 <form action="/user/remove/<%= cartObject.id %>" method="POST">
-                  <button type="submit" class="btn"> <i class="fas fa-trash-alt" style="font-size:24px;color:red"></i> </button>
+                  <button type="submit" class="btn"> <i class="fas fa-trash" style="font-size:24px;color:red"></i> </button>
                 </form>
               </td>
           </tr>

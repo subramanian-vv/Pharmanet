@@ -46,7 +46,7 @@ router.get('/search', ensureAuthenticated, function(req, res) {
 //Case insensitive search using regular expression
 router.post('/search', async function(req, res) {
     const { search } = req.body;
-    const items = await Item.find({ itemName: new RegExp(search, 'i') });
+    const items = await Item.find({$or: [{itemName: new RegExp(search, 'i')}, {itemChemName: new RegExp(search, 'i')}, {itemCategory: new RegExp(search, 'i')}]});
     if(req.user.role == 'buyer') {
         res.render('buyer-search', {
             name: req.user.name,
@@ -245,10 +245,27 @@ router.get('/history', ensureAuthenticated, sellerAuthenticated, async function(
 });
 
 //Remove item
-router.delete('/:id', async function(req, res) {
-    await Item.findByIdAndDelete(req.params.id);
-    req.flash('error_msg', 'The item has been removed');
-    res.redirect('/user/dashboard');
+router.put('/:id', async function(req, res) {
+    let item = await Item.findById(req.params.id);
+    try {
+        if(item.isVisible) {
+            item.isVisible = false;
+            item = await item.save();
+            req.flash('error_msg', 'The item has been removed from public view');
+            res.redirect('/user/dashboard');
+        }
+        else {
+            item.isVisible = true;
+            item = await item.save();
+            req.flash('error_msg', 'The item has been restored for public view');
+            res.redirect('/user/dashboard');
+        }
+    }
+    catch (err) {
+        console.log(err);
+        req.flash('error_msg', 'Internal server error. Please try again later!');
+        res.redirect('/user/dashboard');
+    }
 });
 
 //Edit item
@@ -263,7 +280,6 @@ router.get('/edit/:id', ensureAuthenticated, sellerAuthenticated, async function
 
 router.put('/:id', async function(req, res) {
     let item = await Item.findById(req.params.id);
-    item.itemQty = req.body.itemQty;
     item.itemPrice = req.body.itemPrice;
     try {
         item = await item.save();
@@ -311,7 +327,7 @@ router.post('/cart/:id', async function(req, res) {
         category: item.itemCategory,
         qty: quantity,
         price: quantity*item.itemPrice,
-        eventDate: new Date().toLocaleDateString()
+        eventDate: new Date()
     };
     
     let itemFlag = true;
@@ -379,7 +395,7 @@ router.post('/purchases', async function(req, res) {
                         continue;
                     } else {
                         let tempCart = user.cart[i];
-                        tempCart.eventDate = new Date().toLocaleDateString();
+                        tempCart.eventDate = new Date();
                         purchaseArray.push(tempCart);
                         user.cart.splice(i, 1);
                         let salesHistory = {

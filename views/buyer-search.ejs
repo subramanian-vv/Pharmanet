@@ -1,23 +1,59 @@
 <%- include('./partials/messages.ejs'); %>
 <%- include('./partials/buyer-nav.ejs'); %>
 
+<style>
+  @media (min-width: 768px) {
+    .col-md-6 {
+      max-width: calc(50% - 1.5em);
+    }
+  }
+</style>
+
 <div class="container">
   <h3 class="mb-3 mt-4 text-center"> Search results for: <%= search %> </h3> <hr>
+  <div class="form-group">
+    <form class="form-inline my-2 my-lg-0" action="/user/search" method="POST">
+      <input 
+          class="form-control col-lg-11 col-md-10 col-sm-10 col-xs-10 col-9"
+          id="search"
+          list="search-items"
+          name="search"
+          type="search"
+          placeholder="Search items"
+          aria-label="Search"
+          required
+          value="<%= typeof search != 'undefined' ? search : '' %>">
+          <datalist id="search-items">
+            <option value="Medicines">
+            <option value="COVID Essentials">
+            <option value="Body Care">
+            <option value="Fitness Products">
+            <option value="Healthcare Products">
+            <option value="Other Items">
+            <% items.forEach(function (item) { %>
+              <option value="<%= item.itemName %>">
+              <option value="<%= item.itemChemName %>">
+            <% }) %>
+          </datalist>
+      <button class="btn btn-success my-2 my-sm-0" type="submit"> <i class="fa fa-search"></i> </button>
+  </form>
+  </div>
 
   <% if(items.length == 0) { %>
     <h4 class="mt-4 text-center"> No results found! </h4>
   <% } %>
     
-  <% items.forEach(function (item) { %>
-  
-      <div class="card mt-4 border-dark">
-        <h3 class="card-header text-center">
-          <%= item.itemName %>
-        </h3>
+  <div id="items" class="row" style="margin: 0%;">
+    <% items.forEach(function (item) { %>
+      <% if(item.isVisible) { %>
+        <div class="col-md-6 col-sm-12 col-12 card mt-4 mr-4 border-dark">
+          <h3 class="card-header text-center">
+            <%= item.itemName %>
+          </h3>
           <div class="card-body" style="background-color: lavenderblush;">
-            <div class="card-title mb-4 float-right"> 
+            <div class="card-title mb-4" style="display: flex; justify-content: center;"> 
               <img src="data:image/<%= item.image.contentType %>;base64, 
-                                  <%= item.image.data.toString('base64') %>" width="200" height="200" alt="Image">   
+                        <%= item.image.data.toString('base64') %>" width="200" height="200" alt="Image">   
             </div>
             <% if(item.itemChemName != "") { %>
               <div class="card-title mb-4"> Chemical Name: <strong> <%= item.itemChemName %> </strong> </div>
@@ -39,8 +75,8 @@
                 <button type="submit" class="btn"> <i class="fa fa-shopping-cart" style="font-size:36px"></i> </button>
             </form>
           </div>
-  
-      </div>
-  
-  <% }) %>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
 </div>

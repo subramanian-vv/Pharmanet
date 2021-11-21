@@ -9,7 +9,7 @@
     <% } %>
     
     <% for(let i = 0; i < purchases.length; i++) { %>
-      <h4 class="mt-4 mb-3 text-center"> Purchase date: <%= purchases[i][0].eventDate %> </h4>
+      <h4 class="mt-4 mb-3 text-center"> Purchase date: <%= purchases[i][0].eventDate.toLocaleDateString(); %> (<%= purchases[i][0].eventDate.toLocaleTimeString(); %>) </h4>
       <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead class="table-dark">

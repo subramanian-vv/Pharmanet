@@ -36,6 +36,10 @@ const ItemSchema = new mongoose.Schema({
         data: Buffer, 
 		contentType: String 
     },
+    isVisible: {
+        type: Boolean,
+        default: true
+    },
     invoiceDetails: {
         type: Array
     },

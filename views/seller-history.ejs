@@ -15,7 +15,7 @@
                     <%= item.itemName %>
                     </h3>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-hover">
+                        <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
                             <th>Name</th>
@@ -32,7 +32,7 @@
                             <td> <%= purchase.buyerEmail %> </td>
                             <td> <%= purchase.itemQty %> </td>
                             <td> ₹ <%= purchase.itemPrice %> </td>
-                            <td> <%= purchase.eventDate %> </td>
+                            <td> <%= purchase.eventDate.toLocaleDateString(); %> (<%= purchase.eventDate.toLocaleTimeString(); %>) </td>
                         </tr>
                         <% }) %>
                         </table>

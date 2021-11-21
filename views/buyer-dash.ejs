@@ -11,101 +11,71 @@
 
 <div class="container">
   <h1 class="mb-3 mt-4 text-center">Welcome to your dashboard, <%= name %> !</h1> <hr>
-
   <div class="form-group">
-    <label for="itemcategory"> Filter by Category </label>
-    <select onchange="func()" class="custom-select" id="itemcategory" name="itemCategory">
-        <option value=""> Select a category </option>
-        <option value="Medicines"> Medicines </option>
-        <option value="COVID Essentials"> COVID Essentials </option>
-        <option value="Body Care"> Body Care </option>
-        <option value="Fitness Products"> Fitness Products </option>
-        <option value="Healthcare Products"> Healthcare Products </option>
-        <option value="Other Items"> Other Items </option>
-    </select>
+    <form class="form-inline my-2 my-lg-0" action="/user/search" method="POST">
+      <input 
+          class="form-control col-lg-11 col-md-10 col-sm-10 col-xs-10 col-9"
+          id="search"
+          list="search-items"
+          name="search"
+          type="search"
+          placeholder="Search items"
+          aria-label="Search"
+          required
+          value="<%= typeof search != 'undefined' ? search : '' %>">
+          <datalist id="search-items">
+            <option value="Medicines">
+            <option value="COVID Essentials">
+            <option value="Body Care">
+            <option value="Fitness Products">
+            <option value="Healthcare Products">
+            <option value="Other Items">
+            <% items.forEach(function (item) { %>
+              <option value="<%= item.itemName %>">
+              <option value="<%= item.itemChemName %>">
+            <% }) %>
+          </datalist>
+      <button class="btn btn-success my-2 my-sm-0" type="submit"> <i class="fa fa-search"></i> </button>
+  </form>
   </div>
 
   <% if(items.length == 0) { %>
-      <h4 class="mt-4 text-center"> There are no items as of now! Please shop later. </h4>
-    <% } %>
-    <div id="items" class="row" style="margin: 0%;">
-      <% items.forEach(function (item) { %>
-    
+    <h4 class="mt-4 text-center"> There are no items as of now! Please shop later. </h4>
+  <% } %>
+  <div id="items" class="row" style="margin: 0%;">
+    <% items.forEach(function (item) { %>
+      <% if(item.isVisible) { %>
         <div class="col-md-6 col-sm-12 col-12 card mt-4 mr-4 border-dark">
           <h3 class="card-header text-center">
             <%= item.itemName %>
           </h3>
-            <div class="card-body" style="background-color: lavenderblush;">
-              <div class="card-title mb-4" style="display: flex; justify-content: center;"> 
-                <img src="data:image/<%= item.image.contentType %>;base64, 
-                          <%= item.image.data.toString('base64') %>" width="200" height="200" alt="Image">   
-              </div>
-              <% if(item.itemChemName != "") { %>
-                <div class="card-title mb-4"> Chemical Name: <strong> <%= item.itemChemName %> </strong> </div>
-              <% } %>
-              <div class="card-title mb-4"> Company: <strong> <%= item.itemCompany %> </strong> </div>
-              <div class="card-title mb-4"> Price: <strong> ₹ <%= item.itemPrice %> </strong> </div>
-              <div class="card-title mb-4"> Available stock: <strong> <%= item.itemQty %> </strong> </div>
-              <div class="card-title mb-4"> Category: <strong class="badge badge-dark"> <%= item.itemCategory %> </strong> </div>
-              <br> <hr>
-              <form action="/user/cart/<%= item.id %>" method="POST">
-                  <input 
-                    name="quantity"
-                    id="quantity"
-                    type="number"
-                    value="1"
-                    placeholder="Enter quantity"
-                    required
-                    />
-                  <button type="submit" class="btn"> <i class="fa fa-shopping-cart" style="font-size:36px"></i> </button>
-              </form>
+          <div class="card-body" style="background-color: lavenderblush;">
+            <div class="card-title mb-4" style="display: flex; justify-content: center;"> 
+              <img src="data:image/<%= item.image.contentType %>;base64, 
+                        <%= item.image.data.toString('base64') %>" width="200" height="200" alt="Image">   
             </div>
-    
-        </div>
-    
-      <% }) %>
-    </div>
-</div>
-<script>
-  function func() {
-    let choice = document.getElementById('itemcategory').value;
-    let items = document.getElementById('items');
-    `<% let value = 'Medicines' %>`
-    items.innerHTML = `<% items.forEach(function (item) { %>
-      <% if(item.itemCategory == value) { %>
-    <div class="col-md-6 col-sm-12 col-12 card mt-4 mr-4 border-dark">
-      <h3 class="card-header text-center">
-        <%= item.itemName %>
-      </h3>
-        <div class="card-body" style="background-color: lavenderblush;">
-          <div class="card-title mb-4" style="display: flex; justify-content: center;"> 
-            <img src="data:image/<%= item.image.contentType %>;base64, 
-                      <%= item.image.data.toString('base64') %>" width="200" height="200" alt="Image">   
+            <% if(item.itemChemName != "") { %>
+              <div class="card-title mb-4"> Chemical Name: <strong> <%= item.itemChemName %> </strong> </div>
+            <% } %>
+            <div class="card-title mb-4"> Company: <strong> <%= item.itemCompany %> </strong> </div>
+            <div class="card-title mb-4"> Price: <strong> ₹ <%= item.itemPrice %> </strong> </div>
+            <div class="card-title mb-4"> Available stock: <strong> <%= item.itemQty %> </strong> </div>
+            <div class="card-title mb-4"> Category: <strong class="badge badge-dark"> <%= item.itemCategory %> </strong> </div>
+            <br> <hr>
+            <form action="/user/cart/<%= item.id %>" method="POST">
+                <input 
+                  name="quantity"
+                  id="quantity"
+                  type="number"
+                  value="1"
+                  placeholder="Enter quantity"
+                  required
+                  />
+                <button type="submit" class="btn"> <i class="fa fa-shopping-cart" style="font-size:36px"></i> </button>
+            </form>
           </div>
-          <% if(item.itemChemName != "") { %>
-            <div class="card-title mb-4"> Chemical Name: <strong> <%= item.itemChemName %> </strong> </div>
-          <% } %>
-          <div class="card-title mb-4"> Company: <strong> <%= item.itemCompany %> </strong> </div>
-          <div class="card-title mb-4"> Price: <strong> ₹ <%= item.itemPrice %> </strong> </div>
-          <div class="card-title mb-4"> Available stock: <strong> <%= item.itemQty %> </strong> </div>
-          <div class="card-title mb-4"> Category: <strong class="badge badge-dark"> <%= item.itemCategory %> </strong> </div>
-          <br> <hr>
-          <form action="/user/cart/<%= item.id %>" method="POST">
-              <input 
-                name="quantity"
-                id="quantity"
-                type="number"
-                value="1"
-                placeholder="Enter quantity"
-                required
-                />
-              <button type="submit" class="btn"> <i class="fa fa-shopping-cart" style="font-size:36px"></i> </button>
-          </form>
         </div>
-
-    </div>
-
-  <% } %>
-  <% }) %>`
-  }
-</script>
+      <% }) %>
+    <% } %>
+  </div>
+</div>
