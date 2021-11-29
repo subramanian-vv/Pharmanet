@@ -21,7 +21,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="card-date float-right" id="pub"> <b> Source: </b> <span> <%= article.source.name %> </span> </div>
-                    <div class="card-date" id="date"> <b> Published at: </b> <%= new Date(article.publishedAt) %> </div>
+                    <div class="card-date" id="date"> <b> Published on: </b> <%= new Date(article.publishedAt).toLocaleString() %> </div>
                 </div>
             </div>
         <% } %>

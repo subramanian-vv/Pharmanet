@@ -72,3 +72,11 @@
 
 <button class="btn btn-success btn-lg mr-2"> Submit </button>
 <a href="/user/dashboard" class="btn btn-dark btn-lg mt-4 d-inline"> Cancel </a>
+
+<script>
+    document.querySelector('.custom-file-input').addEventListener('change', function(e) {
+        var fileName = document.getElementById("customFile").files[0].name;
+        var nextSibling = e.target.nextElementSibling;
+        nextSibling.innerText = fileName;
+    });
+</script>
