@@ -19,7 +19,7 @@
             <div class="card-title mb-4"> Company: <strong> <%= item.itemCompany %> </strong> </div>
             <div class="card-title mb-4"> Category: <strong> <%= item.itemCategory %> </strong> </div>
             <div class="card-title mb-4"> Quantity: <strong> <%= item.itemQty %> </strong> </div>
-            <form action="/user/<%= item.id %>?_method=PUT" method="POST">             
+            <form action="/user/edit/<%= item.id %>?_method=PUT" method="POST">             
                 <div class="form-group">
                     <label for="itemprice"> Price: </label>
                     <input 

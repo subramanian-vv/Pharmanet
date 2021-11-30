@@ -76,7 +76,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 1000000 },
+    limits: { fileSize: 10000000 },
     fileFilter: function(req, file, callback) {
         checkFileType(file, callback);
     }
@@ -278,7 +278,7 @@ router.get('/edit/:id', ensureAuthenticated, sellerAuthenticated, async function
     });
 });
 
-router.put('/:id', async function(req, res) {
+router.put('/edit/:id', async function(req, res) {
     let item = await Item.findById(req.params.id);
     item.itemPrice = req.body.itemPrice;
     try {
@@ -290,7 +290,6 @@ router.put('/:id', async function(req, res) {
         console.log(err);
         req.flash('error_msg', 'Please fill all the details!');
         res.render('edit-item', {
-            itemQty: req.body.itemQty,
             itemPrice: req.body.itemPrice,
             item: item
         });
